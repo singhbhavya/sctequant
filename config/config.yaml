@@ -1,0 +1,27 @@
+# Sample Table
+sample_runtable:
+    filename: "config/table_data.csv"
+    runid: "Filename"
+    sampid: "Biospecimen"
+    read: "Read Indicator"
+    seq: "Nucleic Acid Source" 
+
+# Temporary Directory
+tmpdir: "/tmp"
+
+# Reference Downloads
+downloads:
+  Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz:
+    url: "ftp://ftp.ensembl.org/pub/release-93/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz"
+  Homo_sapiens.GRCh38.93.gtf.gz:
+    url: "ftp://ftp.ensembl.org/pub/release-93/gtf/homo_sapiens/Homo_sapiens.GRCh38.93.gtf.gz"
+  3M-february-2018.txt.gz:
+    url: "https://teichlab.github.io/scg_lib_structs/data/10X-Genomics/3M-february-2018.txt.gz"
+
+# Additional files
+whitelist:
+    v3: "databases/remotefiles/3M-february-2018.txt"
+
+# Indexes
+indexes:
+    star: "databases/indexes/STAR_GRCh38"

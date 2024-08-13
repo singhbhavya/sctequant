@@ -1,0 +1,59 @@
+ #! /usr/bin/env python
+# -*- coding: utf-8 -*-
+
+# Setup
+from __future__ import (absolute_import, division,
+                        print_function, unicode_literals)
+from builtins import *
+
+import re
+import gzip
+import pandas as pd
+from collections import defaultdict
+from snakemake.exceptions import RuleException
+import csv
+from collections import defaultdict
+
+# Config file
+configfile: "config/config.yaml"
+
+# Function to extract filenames
+def extract_filenames_by_biospecimen(tsv_file_path):
+    all_dict = defaultdict(list)
+    scRNA_dict = defaultdict(list)
+    snRNA_dict = defaultdict(list)
+    
+    with open(tsv_file_path, 'r') as file:
+        reader = csv.DictReader(file, delimiter='\t')
+        for row in reader:
+            filename = row['Filename'].split('/', 1)[-1]
+            filename = filename.replace('_R1_001.fastq.gz', '').replace('_R2_001.fastq.gz', '')
+            biospecimen = row['Biospecimen']
+            nucleic_acid_source = row['Nucleic Acid Source']
+            
+            all_dict[biospecimen].append(filename)
+            
+            if nucleic_acid_source == 'Single Cell':
+                scRNA_dict[biospecimen].append(filename)
+            elif nucleic_acid_source == 'Single Nucleus':
+                snRNA_dict[biospecimen].append(filename)
+    
+    return dict(all_dict), dict(scRNA_dict), dict(snRNA_dict)
+
+# Create Dictionaries 
+tsv_file_path = 'config/table_data.tsv'
+all_dict, scRNA_dict, snRNA_dict = extract_filenames_by_biospecimen(tsv_file_path)
+
+# Run for all the files 
+# To run for only snRNA-seq, do samid=snRNA_dict. 
+# To run for only scRNA-seq, do samid=scRNA_dict.
+rule all:
+    input:
+        expand("results/completed/{samid}_completed.txt", samid=all_dict.keys()),
+        expand("results/cleanup/{samid}.cleanup.done.txt", samid=all_dict.keys())
+
+# Rules to include
+include: "rules/references.smk"
+include: "rules/star_index.smk"
+include: "rules/starsolo.smk"
+include: "rules/solote.smk"
