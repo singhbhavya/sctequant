@@ -2,7 +2,9 @@
 
 **Prior to running:** 
 
-If using on Minerva, please create a [Snakemake LSF profile with cookiecutter](https://github.com/Christian-Heyer/snakemake-lsf).
+- If using on Minerva, please create a [Snakemake LSF profile with cookiecutter](https://github.com/Christian-Heyer/snakemake-lsf).
+- Download SoloTE and modify the path to SoloTE in the relevant rules (or add it to your .bashrc).
+- Initialize conda and/or mamba to automatically create the relevant environment per rule.
 
 **To get DAG:** 
 
