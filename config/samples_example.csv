@@ -1,0 +1,3 @@
+sample,folder,condition,age,sex,chemistry
+mouse1_young,run1/mouse1,control,2m,F,10x_3prime_v3
+mouse2_old,run1/mouse2,control,19m,F,10x_3prime_v3

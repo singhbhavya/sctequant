@@ -1,0 +1,40 @@
+# 10x Genomics chemistry presets.
+#   cb_len / umi_len : cell barcode and UMI length at the start of the barcode read
+#   strand           : STARsolo --soloStrand (Forward for 3', Reverse for 5' with R2 as cDNA)
+#   whitelist_url    : list of valid 10x cell barcodes
+# To add a chemistry, copy a block and give it a new name.
+
+10x_3prime_v2:
+  cb_len: 16
+  umi_len: 10
+  strand: Forward
+  whitelist: 737K-august-2016.txt
+  whitelist_url: https://teichlab.github.io/scg_lib_structs/data/10X-Genomics/737K-august-2016.txt.gz
+
+10x_3prime_v3:
+  cb_len: 16
+  umi_len: 12
+  strand: Forward
+  whitelist: 3M-february-2018.txt
+  whitelist_url: https://teichlab.github.io/scg_lib_structs/data/10X-Genomics/3M-february-2018.txt.gz
+
+10x_3prime_v4:
+  cb_len: 16
+  umi_len: 12
+  strand: Forward
+  whitelist: 3M-3pgex-may-2023.txt
+  whitelist_url: https://teichlab.github.io/scg_lib_structs/data/10X-Genomics/3M-3pgex-may-2023.txt.gz
+
+10x_5prime:
+  cb_len: 16
+  umi_len: 10
+  strand: Reverse
+  whitelist: 737K-august-2016.txt
+  whitelist_url: https://teichlab.github.io/scg_lib_structs/data/10X-Genomics/737K-august-2016.txt.gz
+
+10x_5prime_v3:
+  cb_len: 16
+  umi_len: 12
+  strand: Reverse
+  whitelist: 3M-5pgex-jan-2023.txt
+  whitelist_url: https://teichlab.github.io/scg_lib_structs/data/10X-Genomics/3M-5pgex-jan-2023.txt.gz

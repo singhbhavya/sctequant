@@ -1,0 +1,5 @@
+sample,folder,condition,age,sex
+sample1,sample1_fastqs,control,young,F
+sample2,sample2_fastqs,control,old,F
+sample3,sample3_fastqs,treated,young,F
+sample4,sample4_fastqs,treated,old,F

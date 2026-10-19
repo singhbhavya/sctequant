@@ -1,0 +1,16 @@
+# scTE is installed from GitHub at a fixed commit. It needs Python < 3.11
+# (it opens files in 'rU' mode, which newer Python removed).
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - python=3.9
+  - samtools=1.21
+  - numpy=1.23
+  - scipy=1.10
+  - pandas=1.5
+  - anndata=0.8
+  - h5py
+  - pip
+  - pip:
+      - git+https://github.com/JiekaiLab/scTE.git@566f6ab3baaf76cd006ab965edc08e4576eb73c9

@@ -1,27 +1,96 @@
-# Sample Table
-sample_runtable:
-    filename: "config/table_data.csv"
-    runid: "Filename"
-    sampid: "Biospecimen"
-    read: "Read Indicator"
-    seq: "Nucleic Acid Source" 
+###############################################################################
+#  sctequant settings
+#
+#  Replace every "CHANGE_ME" below. Everything else has sensible defaults.
+#  Everything else has sensible defaults.
+###############################################################################
 
-# Temporary Directory
-tmpdir: "/tmp"
+# =============================================================================
+# 1. YOUR DATA  (edit these)
+# =============================================================================
 
-# Reference Downloads
-downloads:
-  Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz:
-    url: "ftp://ftp.ensembl.org/pub/release-93/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz"
-  Homo_sapiens.GRCh38.93.gtf.gz:
-    url: "ftp://ftp.ensembl.org/pub/release-93/gtf/homo_sapiens/Homo_sapiens.GRCh38.93.gtf.gz"
-  3M-february-2018.txt.gz:
-    url: "https://teichlab.github.io/scg_lib_structs/data/10X-Genomics/3M-february-2018.txt.gz"
+# Folder that contains your FASTQ files (or one sub-folder per sample).
+fastq_dir: "/sc/arion/projects/CHANGE_ME/path/to/your/fastqs"
 
-# Additional files
-whitelist:
-    v3: "databases/remotefiles/3M-february-2018.txt"
+# Your sample sheet (CSV). See config/samples_example.csv and the README.
+sample_sheet: "config/samples.csv"
 
-# Indexes
-indexes:
-    star: "databases/indexes/STAR_GRCh38"
+# Library chemistry, used for every sample unless the sample sheet has a
+# "chemistry" column. Not sure? Run:  ./check_chemistry.sh <a sample folder>
+#   10x_3prime_v2   (Chromium Single Cell 3' v2)
+#   10x_3prime_v3   (3' v3 / v3.1 / Next GEM)
+#   10x_3prime_v4   (GEM-X 3' v4)
+#   10x_5prime      (5' v1 / v1.1 / v2, incl. the V(D)J kits)
+#   10x_5prime_v3   (GEM-X 5' v3)
+chemistry: "10x_3prime_v3"
+
+# Where results go.
+output_dir: "results"
+
+# =============================================================================
+# 2. MINERVA / LSF
+# =============================================================================
+lsf:
+  account: "acc_CHANGE_ME"     # your allocation (bsub -P)
+  queue: "premium"             # queue for most jobs
+  long_queue: "long"           # queue for the pipeline "manager" job
+  max_jobs: 50                 # max jobs submitted at the same time
+
+# =============================================================================
+# 3. SAMPLE SHEET COLUMNS
+#    Only change these if your sample sheet uses different column names.
+# =============================================================================
+sample_sheet_columns:
+  sample: "sample"        # unique name for each library (required)
+  folder: "folder"        # sub-folder of fastq_dir holding that library's
+                          # FASTQs (optional; if missing, files are found by
+                          # sample name)
+
+# Optional: only run rows that match ALL of these. Leave as {} to run all.
+# Example:  sample_filter: {tissue: "Lung"}
+#           sample_filter: {tissue: ["Lung", "Spleen"]}
+sample_filter: {}
+
+# =============================================================================
+# 4. TE QUANTIFICATION TOOLS  (true = run, false = skip)
+# =============================================================================
+tools:
+  solote: true
+  scte: true
+  irescue: true
+
+# SoloTE reports TEs at several levels. Which one goes in the AnnData?
+#   subfamily | family | class | locus
+solote_level: "subfamily"
+
+# =============================================================================
+# 5. REFERENCE (mouse mm39 / GRCm39, GENCODE)
+#    Point reference_dir at a shared lab folder so the STAR index (~30 GB, a
+#    few hours to build) is only built once for everyone.
+# =============================================================================
+reference_dir: "/sc/arion/projects/CHANGE_ME/references/sctequant_mm39"
+
+genome:
+  name: "mm39"   # UCSC name, used to fetch the RepeatMasker TE annotation
+  fasta_url: "https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_mouse/release_M39/GRCm39.primary_assembly.genome.fa.gz"
+  gtf_url: "https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_mouse/release_M39/gencode.vM39.primary_assembly.annotation.gtf.gz"
+  rmsk_url: "https://hgdownload.soe.ucsc.edu/goldenPath/mm39/bigZips/mm39.fa.out.gz"
+
+# =============================================================================
+# 6. ADVANCED (you normally don't need to touch these)
+# =============================================================================
+star:
+  threads: 12
+  mem_mb: 80000
+  extra: ""            # extra STAR arguments, added to the STARsolo command
+
+te_threads: 8
+
+# SoloTE is not on conda, so it is downloaded from GitHub at this exact version.
+solote_repo: "https://github.com/bvaldebenitom/SoloTE.git"
+solote_commit: "49a1d2b5ebfb76fb222f19bb301209d7ad5ea7ad"
+
+# Where the pipeline's software (conda environments) is installed. Leave
+# empty to install inside this folder, or point several people at one shared
+# folder so the software is only installed once.
+conda_envs_dir: ""

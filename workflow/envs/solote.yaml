@@ -1,0 +1,13 @@
+# SoloTE dependencies (from the SoloTE README). The SoloTE code itself is
+# downloaded from GitHub by the get_solote rule.
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - python=3.10
+  - pysam
+  - pandas=2.2
+  - numpy=1.26
+  - samtools=1.21
+  - bedtools=2.31
+  - r-base=4.3

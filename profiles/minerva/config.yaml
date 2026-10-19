@@ -1,0 +1,10 @@
+# Snakemake settings for Minerva (LSF). Account, queue and job limits come
+# from config/config.yaml via run_pipeline.sh.
+executor: lsf
+software-deployment-method: conda
+latency-wait: 120
+retries: 1
+rerun-incomplete: true
+keep-going: true
+printshellcmds: true
+show-failed-logs: true

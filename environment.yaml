@@ -1,0 +1,15 @@
+# The environment you run the pipeline FROM. Each step's own software is
+# installed automatically by Snakemake.
+#   conda env create -f environment.yaml
+#   conda activate sctequant
+name: sctequant
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - python=3.11
+  - snakemake>=8.6,<10
+  - snakemake-executor-plugin-lsf
+  - pandas
+  - pyyaml
+  - conda>=24.7.1   # Snakemake 9 needs a recent conda to install the tools

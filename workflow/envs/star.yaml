@@ -1,7 +1,6 @@
-name: star
 channels:
-  - bioconda
   - conda-forge
-  - defaults
+  - bioconda
 dependencies:
   - star=2.7.11b
+  - samtools=1.21

@@ -1,0 +1,70 @@
+digraph sctequant {
+  graph [rankdir=TB, bgcolor=white, nodesep=0.35, ranksep=0.45, fontname="Helvetica", fontsize=12, labeljust=l];
+  node [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=10, penwidth=1.4];
+  edge [color="#8a8a8a", arrowsize=0.7];
+  subgraph cluster_0 { label="Reference (built once, shared)"; style="rounded,dashed"; color="#4a6fa5"; fontcolor="#4a6fa5";
+    n4 [label="download genome
+(GRCm39, GENCODE)", fillcolor="#e8eef7", color="#4a6fa5"];
+    n5 [label="download genes
+(GENCODE vM39)", fillcolor="#e8eef7", color="#4a6fa5"];
+    n10 [label="download TEs
+(UCSC RepeatMasker)", fillcolor="#e8eef7", color="#4a6fa5"];
+    n6 [label="download 10x
+barcode whitelist", fillcolor="#e8eef7", color="#4a6fa5"];
+    n11 [label="get SoloTE code", fillcolor="#e8eef7", color="#4a6fa5"];
+    n9 [label="build TE annotation
+(BED files)", fillcolor="#e8eef7", color="#4a6fa5"];
+    n3 [label="STAR index", fillcolor="#e8eef7", color="#4a6fa5"];
+    n14 [label="scTE index", fillcolor="#e8eef7", color="#4a6fa5"];
+  }
+  subgraph cluster_1 { label="Per sample: alignment"; style="rounded,dashed"; color="#3d8a55"; fontcolor="#3d8a55";
+    n2 [label="STARsolo
+align + call cells
++ count genes", fillcolor="#e9f5ec", color="#3d8a55"];
+    n8 [label="index BAM", fillcolor="#e9f5ec", color="#3d8a55"];
+    n12 [label="sample metadata
+(from sample sheet)", fillcolor="#e9f5ec", color="#3d8a55"];
+  }
+  subgraph cluster_2 { label="Per sample: TE quantification"; style="rounded,dashed"; color="#c0792b"; fontcolor="#c0792b";
+    n7 [label="SoloTE", fillcolor="#fdf0e2", color="#c0792b"];
+    n13 [label="scTE", fillcolor="#fdf0e2", color="#c0792b"];
+    n15 [label="IRescue", fillcolor="#fdf0e2", color="#c0792b"];
+  }
+  subgraph cluster_3 { label="Outputs"; style="rounded,dashed"; color="#7d4a9a"; fontcolor="#7d4a9a";
+    n1 [label="AnnData per sample
+(genes + TEs)", fillcolor="#f3e9f7", color="#7d4a9a"];
+    n16 [label="merged AnnData
+per tool", fillcolor="#f3e9f7", color="#7d4a9a"];
+    n17 [label="QC table", fillcolor="#f3e9f7", color="#7d4a9a"];
+    n0 [label="done", fillcolor="#f3e9f7", color="#7d4a9a"];
+  }
+  n17 -> n0;
+  n16 -> n0;
+  n1 -> n0;
+  n15 -> n1;
+  n2 -> n1;
+  n13 -> n1;
+  n9 -> n1;
+  n7 -> n1;
+  n12 -> n1;
+  n6 -> n2;
+  n3 -> n2;
+  n5 -> n3;
+  n4 -> n3;
+  n2 -> n7;
+  n8 -> n7;
+  n9 -> n7;
+  n11 -> n7;
+  n2 -> n8;
+  n10 -> n9;
+  n2 -> n13;
+  n8 -> n13;
+  n14 -> n13;
+  n5 -> n14;
+  n9 -> n14;
+  n2 -> n15;
+  n8 -> n15;
+  n9 -> n15;
+  n1 -> n16;
+  n2 -> n17;
+}

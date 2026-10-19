@@ -1,0 +1,10 @@
+# Settings for the small test dataset (used by: ./run_pipeline.sh --test).
+# Only the values here change; everything else comes from config/config.yaml.
+fastq_dir: "test/data"
+sample_sheet: "test/samples_test.csv"
+chemistry: "10x_3prime_v3"
+output_dir: "test/results"
+sample_filter: {}
+sample_sheet_columns:
+  sample: "sample"
+  folder: "folder"
